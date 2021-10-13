@@ -1,6 +1,8 @@
 import turtle
 from random import choice, randint
 
+FONT = ('Arial', 44)
+
 window = turtle.Screen()
 window.title('Пинг Понг')
 window.setup(width=0.8, height=0.8)
@@ -64,6 +66,21 @@ rocket_b.shapesize(stretch_len=1, stretch_wid=5)
 rocket_b.penup()
 rocket_b.goto(450,0)
 
+# Установка табло счета
+score_a = 0
+s1 = turtle.Turtle(visible=False)
+s1.color('white')
+s1.penup()
+s1.setposition(-250, 300)
+s1.write(score_a, font=FONT)
+
+score_b = 0
+s2 = turtle.Turtle(visible=False)
+s2.color('white')
+s2.penup()
+s2.setposition(250, 300)
+s2.write(score_b, font=FONT)
+
 # Перемещение правой ракетки
 def move_up_b():
     y = rocket_b.ycor() + 10
@@ -99,18 +116,33 @@ while True:
     ball.setx(ball.xcor() + ball.dx)
     ball.sety(ball.ycor() + ball.dy)
 
+    # Отскок мячика от верхей и нижней границы
     if ball.ycor() >= 290 or ball.ycor() <= -290:
         ball.dy = - ball.dy
 
-    if ball.xcor() >= 490 or ball.xcor() <= -490:
+    # Отскок мячика от правой и левой границы и возвращение его на осевую линию по Y
+    if ball.xcor() >= 490:
+        score_b += 1
+        s2.clear()
+        s2.write(score_b, font=FONT)
+        ball.goto(0, randint(-200, 200))
+        ball.dx = choice([-4, -3, -2, 2, 3, 4])
+        ball.dy = choice([-4, -3, -2, 2, 3, 4])
+
+    if ball.xcor() <= -490:
+        score_a += 1
+        s1.clear()
+        s1.write(score_a, font=FONT)
         ball.goto(0, randint(-200,200))
         ball.dx = choice([-4, -3, -2, 2, 3, 4])
         ball.dy = choice([-4, -3, -2, 2, 3, 4])
 
+    # Отбивание мячика правой ракеткой
     if ball.ycor() >= rocket_b.ycor()-50 and ball.ycor() <= rocket_b.ycor()+50 and ball.xcor() >= rocket_b.xcor()-20 \
             and ball.xcor() <= rocket_b.xcor()+20:
         ball.dx = -ball.dx
 
+    # Отбивание мячика правой ракеткой
     if ball.ycor() >= rocket_a.ycor()-50 and ball.ycor() <= rocket_a.ycor()+50 and ball.xcor() >= rocket_a.xcor()-20 \
             and ball.xcor() <= rocket_a.xcor()+20:
         ball.dx = -ball.dx
