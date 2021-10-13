@@ -5,6 +5,7 @@ window = turtle.Screen()
 window.title('Пинг Понг')
 window.setup(width=0.8, height=0.8)
 window.bgcolor('black')
+window.tracer(2)
 
 # Рисование игрового поля
 border = turtle.Turtle()
@@ -80,7 +81,7 @@ def move_down_b():
 ball = turtle.Turtle()
 ball.shape('circle')
 ball.color('red')
-ball.speed(0)
+#ball.speed(0)
 ball.dx = 5
 ball.dy = 5
 ball.penup()
@@ -92,6 +93,7 @@ window.onkeypress(move_down_a, 's')
 window.onkeypress(move_up_b, 'Up')
 window.onkeypress(move_down_b, 'Down')
 
+# Логика движения мячика
 while True:
     window.update()
     ball.setx(ball.xcor() + ball.dx)
@@ -102,7 +104,17 @@ while True:
 
     if ball.xcor() >= 490 or ball.xcor() <= -490:
         ball.goto(0, randint(-200,200))
-        ball.dx = choice([-4,-3,-2,2,3,4])
+        ball.dx = choice([-4, -3, -2, 2, 3, 4])
         ball.dy = choice([-4, -3, -2, 2, 3, 4])
+
+    if ball.ycor() >= rocket_b.ycor()-50 and ball.ycor() <= rocket_b.ycor()+50 and ball.xcor() >= rocket_b.xcor()-20 \
+            and ball.xcor() <= rocket_b.xcor()+20:
+        ball.dx = -ball.dx
+
+    if ball.ycor() >= rocket_a.ycor()-50 and ball.ycor() <= rocket_a.ycor()+50 and ball.xcor() >= rocket_a.xcor()-20 \
+            and ball.xcor() <= rocket_a.xcor()+20:
+        ball.dx = -ball.dx
+
+
 
 window.mainloop()
