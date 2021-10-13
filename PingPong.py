@@ -1,4 +1,5 @@
 import turtle
+from random import choice, randint
 
 window = turtle.Screen()
 window.title('Пинг Понг')
@@ -20,6 +21,7 @@ border.end_fill()
 # Рисование сетки посередине
 border.goto(0,300)
 border.color('white')
+border.pensize(3)
 border.setheading(270)
 for i in range(25):
     if i%2==0:
@@ -74,10 +76,33 @@ def move_down_b():
         y = -250
     rocket_b.sety(y)
 
+# Создание мячика
+ball = turtle.Turtle()
+ball.shape('circle')
+ball.color('red')
+ball.speed(0)
+ball.dx = 5
+ball.dy = 5
+ball.penup()
+
+# Слежение за нажатиями
 window.listen()
 window.onkeypress(move_up_a, 'w')
 window.onkeypress(move_down_a, 's')
 window.onkeypress(move_up_b, 'Up')
 window.onkeypress(move_down_b, 'Down')
+
+while True:
+    window.update()
+    ball.setx(ball.xcor() + ball.dx)
+    ball.sety(ball.ycor() + ball.dy)
+
+    if ball.ycor() >= 290 or ball.ycor() <= -290:
+        ball.dy = - ball.dy
+
+    if ball.xcor() >= 490 or ball.xcor() <= -490:
+        ball.goto(0, randint(-200,200))
+        ball.dx = choice([-4,-3,-2,2,3,4])
+        ball.dy = choice([-4, -3, -2, 2, 3, 4])
 
 window.mainloop()
