@@ -1,6 +1,7 @@
 import turtle
 import random
 
+# Рисование границы
 window = turtle.Screen()
 border = turtle.Turtle()
 border.speed(0)
@@ -16,6 +17,7 @@ border.goto(-300,-300)
 border.goto(-300,300)
 border.goto(300,300)
 
+# Рисование мячика
 ball = turtle.Turtle()
 ball.hideturtle()
 ball.shape('circle')
